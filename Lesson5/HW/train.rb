@@ -1,9 +1,12 @@
 require_relative 'manufacturer_module'
+require_relative 'instance_counter_module'
 
 class Train
   include Manufacturer
+  include InstanceCounter
 
   @@all_trains = []
+  @counter = 0
 
   attr_accessor :current_station, :route, :speed
   attr_reader :type, :cars, :number
@@ -14,6 +17,7 @@ class Train
     @speed = 0
     @cars = []
     @@all_trains << self
+    register_instance
   end
 
   def self.find(number)
@@ -112,4 +116,8 @@ tr4 = Train.new(558, 'pass')
 tr5 = Train.new(559, 'pass')
 p Train.find(556)
 p Train.find(551)
+p Train.instance_variables
+p Train.class_variables
+p Train.instances
 =end
+

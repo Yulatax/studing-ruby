@@ -1,21 +1,27 @@
 require_relative 'instance_counter_module'
 
 class Station
+
   include InstanceCounter
 
-  @@all_stations = []
-
   attr_reader :trains, :name
+
+  @@all_stations = []
+  @counter = 0
+
+  class << self
+
+    def all
+      @@all_stations
+    end
+
+  end
 
   def initialize(name)
     @name = name
     @trains = []
     @@all_stations << self
     register_instance
-  end
-
-  def self.all
-    @@all_stations
   end
 
   def receive_train(train)
@@ -38,11 +44,16 @@ class Station
       @trains.each { |train| puts "#{train.number} : #{train.type}" }
     end
   end
+
 end
 
 
+=begin
+p Station.instance_variables
+p Station.class_variables
 st1 = Station.new('Moscow')
 st2 = Station.new('Novosibirsk')
 st3 = Station.new('Irkutsk')
 p Station.all
 p Station.instances
+=end

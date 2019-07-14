@@ -9,25 +9,22 @@ module InstanceCounter
 
   module ClassMethods
 
-    def instances
-      @count
-    end
+    @counter
 
+    attr_accessor :counter
+
+    def instances
+      @counter
+    end
   end
 
   module InstanceMethods
 
-    attr_accessor :count
-
-    @count = 0
-
     protected
 
     def register_instance
-      @count += 1
+      self.class.counter += 1
     end
-
   end
-
 end
 

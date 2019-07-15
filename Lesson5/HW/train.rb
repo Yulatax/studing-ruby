@@ -20,8 +20,11 @@ class Train
     register_instance
   end
 
-  def self.find(number)
-    @@all_trains.find{ |train| train.number == number }
+  class << self
+
+    def find(number)
+      @@all_trains.find{ |train| train.number == number }
+    end
   end
 
   def increase_speed(speed_acceleration)

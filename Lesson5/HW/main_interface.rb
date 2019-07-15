@@ -93,7 +93,7 @@ class MainInterface
   end
 
   def train_exist?(number)
-    @trains.any?{ |train| train.number == number }
+    !find_train(number).nil?
   end
 
   def route_exist?(number)

@@ -15,6 +15,8 @@ class CargoCar < TrainCar
 
 end
 
+=begin
 car1 = CargoCar.new(111)
-car1.add_manufacturer('Company1')
+car1.manufacturer = 'Company1'
 p car1
+=end

@@ -1,4 +1,5 @@
 require_relative 'train'
+require_relative 'cargo_train'
 
 class PassengerTrain < Train
 
@@ -17,9 +18,14 @@ class PassengerTrain < Train
 
 end
 
+=begin
 ptrain1 = PassengerTrain.new(111)
 ptrain2 = PassengerTrain.new(222)
 ptrain3 = PassengerTrain.new(777)
 ptrain4 = PassengerTrain.new(888)
+p PassengerTrain.find(333)
+p PassengerTrain.find(676)
+p PassengerTrain.find(222)
 p PassengerTrain.instances
 p Train.instances
+=end

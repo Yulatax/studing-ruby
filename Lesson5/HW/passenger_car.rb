@@ -15,3 +15,8 @@ class PassengerCar < TrainCar
 
 end
 
+=begin
+car2 = PassengerCar.new(001)
+car2.manufacturer = 'Company2'
+p car2
+=end

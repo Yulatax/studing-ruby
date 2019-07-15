@@ -19,10 +19,12 @@ end
 
 =begin
 train1 = CargoTrain.new(555)
-train1.add_manufacturer('TrainCompany')
+train1.manufacturer ='TrainCompany'
 puts train1.manufacturer
 train2 = CargoTrain.new(333)
 train4 = CargoTrain.new(444)
+p CargoTrain.find(111)
+p CargoTrain.find(333)
 p CargoTrain.instance_variables
 p CargoTrain.class_variables
 p CargoTrain.instances

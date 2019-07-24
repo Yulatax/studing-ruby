@@ -18,6 +18,7 @@ class Car
     current_rpm.zero?
   end
 
+  # to check validation after changing number via setters
   def valid?
     validate!
     true

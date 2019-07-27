@@ -10,9 +10,13 @@ class Train
   attr_accessor :current_station, :route, :speed
   attr_reader :type, :cars, :number
 
+  TRAIN_NUMBER_FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/i
+
   def initialize(number, type)
     @number = number
+    validate_number!
     @type = type
+    validate_type!
     @speed = 0
     @cars = []
     @@all_trains[@number] = self
@@ -24,6 +28,12 @@ class Train
     def find(number)
       @@all_trains[number]
     end
+  end
+
+  def valid?
+    return true if validate_number! && validate_type!
+  rescue
+    false
   end
 
   def increase_speed(speed_acceleration)
@@ -98,6 +108,17 @@ class Train
     end
   end
 
+  protected
+
+  def validate_number!
+    raise "Train number can't be empty" if @number.nil?
+    raise "Train number format doesn't match format" if @number !~ TRAIN_NUMBER_FORMAT
+  end
+
+  def validate_type!
+    raise "Type should be 'cargo' or 'pass'" if @type != 'cargo' && @type != 'pass'
+  end
+
   private
 
   def car_train_same_type?(car)
@@ -110,6 +131,15 @@ class Train
 
 end
 
-
-
+# number = "lo3-7i"
+# type = "pass"
+#
+# begin
+#   train = Train.new(number, type)
+#   p train
+# rescue RuntimeError => e
+#   puts e.inspect
+# end
+#
+# p Train.instances
 

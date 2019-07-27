@@ -1,4 +1,5 @@
 require_relative 'instance_counter'
+require_relative 'station'
 
 class Route
 
@@ -6,12 +7,22 @@ class Route
 
   attr_reader :start_station, :end_station, :inner_stations, :number
 
+  ROUTE_NUMBER_FORMAT = /^\d{3}$/
+
   def initialize(number, start_station, end_station, inner_stations = [])
     @number = number
+    validate_number!
     @start_station = start_station
     @end_station = end_station
     @inner_stations = inner_stations
+    validate_station!
     register_instance
+  end
+
+  def valid?
+    return true if validate_number! && validate_station!
+  rescue
+    false
   end
 
   def add_inner_station(station, index)
@@ -35,6 +46,31 @@ class Route
     [start_station, inner_stations, end_station].flatten!.compact
   end
 
+  protected
+
+  def validate_number!
+    raise "Route number can't be empty" if @number.nil?
+    raise "Route number format contains 3 digits only" if @number !~ ROUTE_NUMBER_FORMAT
+  end
+
+  def validate_station!
+    raise "Start and end stations are the same" if @start_station == @end_station
+    raise "Start or end station is not the instance of class Station" if
+      !@start_station.instance_of?(Station) || !@end_station.instance_of?(Station)
+  end
 end
 
-
+# number = "453"
+# s1 = Station.new("KJA")
+# s2 = Station.new("OMS")
+#
+# begin
+#   route = Route.new(number, s1, s2)
+#   p route
+#   p route.number
+#   p route.stations_list
+# rescue RuntimeError => e
+#   puts e.inspect
+# end
+#
+# p Route.instances

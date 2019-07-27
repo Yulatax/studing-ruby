@@ -15,3 +15,12 @@ class CargoCar < TrainCar
 
 end
 
+# number = "123"
+# begin
+#   car = CargoCar.new(number)
+#   puts car
+#   puts car.number
+#   puts car.type
+# rescue RuntimeError => e
+#   puts e.inspect
+# end

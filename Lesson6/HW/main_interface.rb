@@ -123,29 +123,29 @@ class MainInterface
   def create_station
     puts "Enter station name: "
     name = gets.chomp.downcase
-    if string_invalid?(name)
-      puts "Incorrect data!"
-    else
-      station_creation(name)
-    end
+    station_creation(name)
   end
 
   def station_creation(name)
     if station_exist?(name)
       puts "Station #{name} is already exist!"
     else
-      station = Station.new(name)
-      puts "Station #{station.name} created successfully!"
+      begin
+        station = Station.new(name)
+        puts "Station #{station.name} created successfully!"
+      rescue RuntimeError => e
+        puts e.inspect
+      end
     end
   end
 
   def create_train
     puts "Enter train number: "
-    train_number = gets.chomp.to_i
+    train_number = gets.chomp
     puts "Enter train type: cargo/pass"
     type = gets.chomp.downcase
-    if train_number.zero? || (type != 'cargo' && type != 'pass')
-      puts "Incorrect data!"
+    if type != 'cargo' && type != 'pass'
+      puts "Incorrect type!"
     else
       train_creation(train_number, type)
     end
@@ -155,9 +155,13 @@ class MainInterface
     if train_exist?(number)
       puts "Train #{number} is already exist!"
     else
-      train = init_train(type, number)
-      @trains << train
-      puts "Train #{train.number} - #{train.type} created successfully!"
+      begin
+        train = init_train(type, number)
+        @trains << train
+        puts "Train #{train.number} - #{train.type} created successfully!"
+      rescue RuntimeError => e
+      puts e.inspect
+      end
     end
   end
 
@@ -171,16 +175,12 @@ class MainInterface
 
   def create_route
     puts "Enter route number: "
-    route_number = gets.chomp.to_i
+    route_number = gets.chomp
     puts "Enter the name of the first station in the route: "
     first_station = gets.chomp.downcase
     puts "Enter the name of the last station in the route: "
     last_station = gets.chomp.downcase
-    if route_number.zero? || string_invalid?(first_station) || string_invalid?(last_station)
-      puts "Incorrect data!"
-    else
-      route_creation(route_number, first_station, last_station)
-    end
+    route_creation(route_number, first_station, last_station)
   end
 
   def route_creation(number, station1, station2)
@@ -189,19 +189,23 @@ class MainInterface
     elsif !station_exist?(station1) || !station_exist?(station2)
       puts "Check if stations exist!"
     else
-      route = Route.new(number, find_station(station1), find_station(station2))
-      @routes << route
-      puts "Route #{station1} - #{station2} created successfully!"
+      begin
+        route = Route.new(number, find_station(station1), find_station(station2))
+        @routes << route
+        puts "Route #{station1} - #{station2} created successfully!"
+      rescue RuntimeError => e
+        puts e.inspect
+      end
     end
   end
 
   def create_train_car
     puts "Enter car number: "
-    car_number = gets.chomp.to_i
+    car_number = gets.chomp
     puts "Enter car type: cargo/pass"
     type = gets.chomp.downcase
-    if car_number.zero? || (type != 'cargo' && type != 'pass')
-      puts "Incorrect data!"
+    if type != 'cargo' && type != 'pass'
+      puts "Incorrect type!"
     else
       train_car_creation(car_number, type)
     end
@@ -211,9 +215,13 @@ class MainInterface
     if car_exist?(number)
       puts "Car #{number} is already exist!"
     else
-      car = init_car(type, number)
-      @cars << car
-      puts "Car #{car.number}: #{car.type} created successfully!"
+      begin
+        car = init_car(type, number)
+        @cars << car
+        puts "Car #{car.number}: #{car.type} created successfully!"
+      rescue RuntimeError => e
+        puts e.inspect
+      end
     end
   end
 
@@ -406,7 +414,7 @@ class MainInterface
   end
 
   def display_stations_list
-    @stations.all.each {|station| puts station.name}
+    @stations.each {|station| puts station.name}
   end
 
   def display_trains_on_station

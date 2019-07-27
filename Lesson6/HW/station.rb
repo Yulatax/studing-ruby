@@ -9,7 +9,7 @@ class Station
 
   @@all_stations = []
 
-  NAME_FORMAT = /^[a-z][a-z\-'\s]{1,}/i
+  NAME_FORMAT = /^[a-z][a-z '-]+$/i
 
   class << self
 
@@ -21,8 +21,8 @@ class Station
 
   def initialize(name)
     @name = name
-    @trains = []
     validate!
+    @trains = []
     @@all_stations << self
     register_instance
   end
@@ -64,13 +64,13 @@ class Station
   end
 end
 
-name = 'ogjhg5__vb'
-
-begin
-  station = Station.new(name)
-rescue RuntimeError => e
-  puts e.inspect
-end
-
-p Station.all
+# name = 'dfdf hjg hjfg-hgh'
+#
+# begin
+#   station = Station.new(name)
+# rescue RuntimeError => e
+#   puts e.inspect
+# end
+#
+# p Station.all
 
